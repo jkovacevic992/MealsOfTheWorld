@@ -8,14 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToOne;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="dish")
+ * @ORM\Table(name="meal")
  */
-class Dish
+class Meal
 {
     /**
      * @ORM\Id
@@ -55,15 +54,15 @@ class Dish
     private $locale;
 
     /**
-     * @ManyToMany(targetEntity="Tag", inversedBy="dishes")
-     * @JoinTable(name="dishes_tags")
+     * @ManyToMany(targetEntity="Tag", inversedBy="meals")
+     * @JoinTable(name="meals_tags")
      * @var ArrayCollection<int, Tag>
      */
     private $tags;
 
     /**
-     * @ManyToMany(targetEntity="Ingredient", inversedBy="dishes")
-     * @JoinTable(name="dishes_ingredients")
+     * @ManyToMany(targetEntity="Ingredient", inversedBy="meals")
+     * @JoinTable(name="meals_ingredients")
      * @var ArrayCollection<int, Ingredient>
      */
     private $ingredients;

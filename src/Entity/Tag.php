@@ -39,14 +39,14 @@ class Tag
     private $locale;
 
     /**
-     * @ManyToMany(targetEntity="Dish", mappedBy="tags")
-     * @var ArrayCollection<int, Dish>
+     * @ManyToMany(targetEntity="Meal", mappedBy="tags")
+     * @var ArrayCollection<int, Meal>
      */
-    private $dishes;
+    private $meals;
 
     public function __construct()
     {
-        $this->dishes = new ArrayCollection();
+        $this->meals = new ArrayCollection();
     }
 
     /**
@@ -99,11 +99,11 @@ class Tag
     }
 
     /**
-     * @param Dish $dish
+     * @param Meal $meal
      * @return void
      */
-    public function addDish(Dish $dish)
+    public function addMeal(Meal $meal)
     {
-        $this->dishes->add($dish);
+        $this->meal->add($meal);
     }
 }
