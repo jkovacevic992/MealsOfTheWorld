@@ -29,14 +29,14 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
     {
         $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         for ($i = 1; $i <= 5; $i++) {
-            $meal = new Dish();
+            $meal = new Meal();
             $meal->setTitle('Meal ' . $i . ' English Title');
-            $meal->addTag($manager->getRepository(Tag::class)->find($i));
-            $meal->addIngredient($manager->getRepository(Ingredient::class)->find($i));
+            $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i]));
+            $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i]));
             if ($i < 5) {
-                $meal->addTag($manager->getRepository(Tag::class)->find($i+1));
-                $meal->addIngredient($manager->getRepository(Ingredient::class)->find($i+1));
-                $meal->setCategory($manager->getRepository(Category::class)->find($i));
+                $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i+1]));
+                $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i+1]));
+                $meal->setCategory($manager->getRepository(Category::class)->findOneBy(['slug' => 'category-' . $i]));
             }
 
             $meal->setCreatedAt(new \DateTime('now'));
