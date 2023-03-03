@@ -4,14 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
-
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="category")
  */
-class Category implements Translatable
+class Category
 {
     /**
      * @ORM\Id
@@ -76,7 +74,11 @@ class Category implements Translatable
         $this->slug = $slug;
     }
 
-    public function setTranslatableLocale($locale)
+    /**
+     * @param $locale
+     * @return void
+     */
+    public function setTranslatableLocale($locale): void
     {
         $this->locale = $locale;
     }
