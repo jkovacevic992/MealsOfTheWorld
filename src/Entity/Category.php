@@ -2,19 +2,17 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
+
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="category")
  */
-class Category implements TranslatableInterface
+class Category implements Translatable
 {
-    use TranslatableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -27,58 +25,59 @@ class Category implements TranslatableInterface
      */
     private $slug;
 
-    public function getTranslations()
+    /**
+     * @ORM\Column(type="string")
+     * @Gedmo\Translatable()
+     */
+    private $title;
+
+    /**
+     * @Gedmo\Locale()
+     */
+    private $locale;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
-        // TODO: Implement getTranslations() method.
+        return $this->id;
     }
 
-    public function getNewTranslations(): Collection
+    /**
+     * @return mixed
+     */
+    public function getTitle()
     {
-        // TODO: Implement getNewTranslations() method.
+        return $this->title;
     }
 
-    public function addTranslation(TranslationInterface $translation): void
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
     {
-        // TODO: Implement addTranslation() method.
+        $this->title = $title;
     }
 
-    public function removeTranslation(TranslationInterface $translation): void
+    /**
+     * @return mixed
+     */
+    public function getSlug()
     {
-        // TODO: Implement removeTranslation() method.
+        return $this->slug;
     }
 
-    public function translate(?string $locale = null, bool $fallbackToDefault = true): TranslationInterface
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug): void
     {
-        // TODO: Implement translate() method.
+        $this->slug = $slug;
     }
 
-    public function mergeNewTranslations(): void
+    public function setTranslatableLocale($locale)
     {
-        // TODO: Implement mergeNewTranslations() method.
-    }
-
-    public function setCurrentLocale(string $locale): void
-    {
-        // TODO: Implement setCurrentLocale() method.
-    }
-
-    public function getCurrentLocale(): string
-    {
-        // TODO: Implement getCurrentLocale() method.
-    }
-
-    public function setDefaultLocale(string $locale): void
-    {
-        // TODO: Implement setDefaultLocale() method.
-    }
-
-    public function getDefaultLocale(): string
-    {
-        // TODO: Implement getDefaultLocale() method.
-    }
-
-    public static function getTranslationEntityClass(): string
-    {
-        return CategoryTranslation::class;
+        $this->locale = $locale;
     }
 }
