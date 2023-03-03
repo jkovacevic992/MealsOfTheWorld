@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 
 /**
  * @ORM\Entity()
@@ -15,6 +16,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
  */
 class Ingredient implements TranslatableInterface
 {
+    use TranslatableTrait;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
