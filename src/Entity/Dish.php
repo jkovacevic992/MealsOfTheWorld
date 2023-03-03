@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
@@ -24,27 +25,13 @@ class Dish
     private $id;
 
     /**
-     * @ManyToMany(targetEntity="Tag", inversedBy="dish")
-     * @JoinTable(name="dish_tag")
-     * @var ArrayCollection<int, Tag>
-     */
-    private $tag;
-
-    /**
-     * @ManyToOne(targetEntity="Category")
-     * @JoinColumn(name="id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     private $category;
 
     /**
-     * @ManyToMany(targetEntity="Ingredient", inversedBy="dish")
-     * @JoinTable(name="dish_ingredient")
-     * @var ArrayCollection<int, Ingredient>
-     */
-    private $ingredient;
-
-    /**
-     * @var DateTime $created
+     * @var DateTime $createdAt
      *
      * @ORM\Column(type="datetime")
      */
@@ -52,25 +39,153 @@ class Dish
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Translatable()
      */
     private $title;
 
     /**
      * @ORM\Column(type="string")
+     * @Gedmo\Translatable()
      */
     private $description;
 
+    /**
+     * @Gedmo\Locale()
+     */
+    private $locale;
 
     /**
-     * @ORM\PrePersist
+     * @ManyToMany(targetEntity="Tag", inversedBy="dishes")
+     * @JoinTable(name="dishes_tags")
+     * @var ArrayCollection<int, Tag>
      */
-    public function onPrePersist()
-    {
-        $this->createdAt = new \DateTime("now");
-    }
+    private $tags;
+
+    /**
+     * @ManyToMany(targetEntity="Ingredient", inversedBy="dishes")
+     * @JoinTable(name="dishes_ingredients")
+     * @var ArrayCollection<int, Ingredient>
+     */
+    private $ingredients;
+
     public function __construct()
     {
-        $this->tag = new ArrayCollection();
-        $this->ingredient = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @param $locale
+     * @return void
+     */
+    public function setTranslatableLocale($locale): void
+    {
+        $this->locale = $locale;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTags(): ArrayCollection
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return void
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags->add($tag);
+    }
+
+    /**
+     * @param Ingredient $ingredient
+     * @return void
+     */
+    public function addIngredient(Ingredient $ingredient)
+    {
+        $this->ingredients->add($ingredient);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getIngredients(): ArrayCollection
+    {
+        return $this->ingredients;
     }
 }
