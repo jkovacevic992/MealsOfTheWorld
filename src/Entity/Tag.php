@@ -4,9 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -61,7 +59,7 @@ class Tag
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }
@@ -69,7 +67,7 @@ class Tag
     /**
      * @return mixed
      */
-    public function getSlug()
+    public function getSlug(): mixed
     {
         return $this->slug;
     }
@@ -77,7 +75,7 @@ class Tag
     /**
      * @param mixed $slug
      */
-    public function setSlug($slug): void
+    public function setSlug(mixed $slug): void
     {
         $this->slug = $slug;
     }
@@ -85,7 +83,7 @@ class Tag
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getTitle(): mixed
     {
         return $this->title;
     }
@@ -93,7 +91,7 @@ class Tag
     /**
      * @param mixed $title
      */
-    public function setTitle($title): void
+    public function setTitle(mixed $title): void
     {
         $this->title = $title;
     }
@@ -102,8 +100,16 @@ class Tag
      * @param Meal $meal
      * @return void
      */
-    public function addMeal(Meal $meal)
+    public function addMeal(Meal $meal): void
     {
-        $this->meal->add($meal);
+        $this->meals->add($meal);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMeals(): ArrayCollection
+    {
+        return $this->meals;
     }
 }
