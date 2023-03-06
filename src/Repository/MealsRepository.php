@@ -25,9 +25,10 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
         $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.category', 'c')
             ->innerJoin('m.tags', 't')
-            ->innerJoin('m.tags', 't1')
             ->leftJoin('m.ingredients', 'i');
-
+        if (count($requestData) === 1 && array_key_exists('lang',$requestData)) {
+            $qb->groupBy('m.id');
+        }
         if (array_key_exists('category', $requestData)) {
             if (strtoupper($requestData['category']) === 'NULL') {
                 $qb->andWhere('c.id IS NULL');
@@ -40,8 +41,8 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
         }
 
         if (array_key_exists('tags', $requestData)) {
-            $qb->andWhere('t.id IN (:tags)')
-                ->setParameter('tags', explode(',', $requestData['tags']));
+            $qb->andWhere(':tags MEMBER OF m.tags')
+                ->setParameter('tags', explode(',',$requestData['tags']));
         }
         if (array_key_exists('with', $requestData)) {
             $with = explode(',', $requestData['with']);
@@ -49,7 +50,7 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
                 $qb->addSelect('c');
             }
             if (in_array('tags', $with)) {
-                $qb->addSelect('t1');
+                $qb->addSelect('t');
             }
             if (in_array('ingredients', $with)) {
                 $qb->addSelect('i');
