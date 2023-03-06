@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class MealsRepository extends ServiceEntityRepository implements MealsRepositoryInterface
 {
-
     /**
      * @param ManagerRegistry $registry
      */
@@ -25,11 +24,12 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.category', 'c')
-            ->innerJoin('m.tags','t')
-            ->leftJoin('m.ingredients','i');
+            ->innerJoin('m.tags', 't')
+            ->innerJoin('m.tags', 't1')
+            ->leftJoin('m.ingredients', 'i');
 
         if (array_key_exists('category', $requestData)) {
-            if(strtoupper($requestData['category']) === 'NULL') {
+            if (strtoupper($requestData['category']) === 'NULL') {
                 $qb->andWhere('c.id IS NULL');
             } elseif (strtoupper($requestData['category']) === '!NULL') {
                 $qb->andWhere('c.id IS NOT NULL');
@@ -37,31 +37,30 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
                 $qb->andWhere('c.id = :categoryId')
                     ->setParameter('categoryId', $requestData['category']);
             }
-
         }
 
-         if (array_key_exists('tags', $requestData)) {
-             $qb->andWhere(':tags MEMBER OF m.tags')
-                 ->setParameter('tags', explode(',',$requestData['tags']));
-         }
+        if (array_key_exists('tags', $requestData)) {
+            $qb->andWhere('t.id IN (:tags)')
+                ->setParameter('tags', explode(',', $requestData['tags']));
+        }
         if (array_key_exists('with', $requestData)) {
-            $with = explode(',',$requestData['with']);
-            if (in_array('category',$with)) {
+            $with = explode(',', $requestData['with']);
+            if (in_array('category', $with)) {
                 $qb->addSelect('c');
             }
             if (in_array('tags', $with)) {
-                $qb->addSelect('t');
+                $qb->addSelect('t1');
             }
             if (in_array('ingredients', $with)) {
                 $qb->addSelect('i');
             }
         }
 
-        if(array_key_exists('diff_time', $requestData)) {
+        if (array_key_exists('diff_time', $requestData)) {
             $dateTime = new \DateTime();
             $dateTime->setTimestamp(($requestData['diff_time']));
             $qb->andWhere('m.createdAt > :time')
-            ->setParameter('time',  $dateTime->format('Y-m-d H:i:s'));
+            ->setParameter('time', $dateTime->format('Y-m-d H:i:s'));
         }
         $query = $qb->getQuery();
         $query->setHint(
