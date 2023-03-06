@@ -10,5 +10,11 @@
 
 <div class="example-wrapper">
     <h1>Jela svijeta</h1>
+    {% if error is defined and error is not empty %}
+        <p>ERROR: {{ error }}</p>
+    {% endif %}
+    {% if no_meals is defined and no_meals is not empty %}
+        <p>{{ no_meals }}</p>
+    {% endif %}
 </div>
 {% endblock %}
