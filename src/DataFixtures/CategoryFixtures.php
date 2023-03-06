@@ -15,11 +15,11 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $category = new Category();
             $category->setTitle('Category ' . $i . ' English Title');
             $category->setSlug('category-' . $i);
-            $repository->translate($category,'title','de','Category ' . $i . ' German Title');
+            $repository->translate($category, 'title', 'de', 'Category ' . $i . ' German Title');
             $manager->persist($category);
         }
         $manager->flush();
