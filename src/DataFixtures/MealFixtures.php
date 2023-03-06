@@ -33,7 +33,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
             $meal->setTitle('Meal ' . $i . ' English Title');
             $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i]));
             $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i]));
-            if ($i < 5) {
+            if ($i < 8) {
                 $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i+1]));
                 $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i+1]));
                 $meal->setCategory($manager->getRepository(Category::class)->findOneBy(['slug' => 'category-' . $i]));
