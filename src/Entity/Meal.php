@@ -141,7 +141,7 @@ class Meal
     /**
      * @return mixed
      */
-    public function getCategory()
+    public function getCategory(): mixed
     {
         return $this->category;
     }
@@ -149,7 +149,7 @@ class Meal
     /**
      * @param mixed $category
      */
-    public function setCategory($category): void
+    public function setCategory(mixed $category): void
     {
         $this->category = $category;
     }
@@ -166,7 +166,7 @@ class Meal
      * @param Tag $tag
      * @return void
      */
-    public function addTag(Tag $tag)
+    public function addTag(Tag $tag): void
     {
         $this->tags->add($tag);
     }
@@ -175,7 +175,7 @@ class Meal
      * @param Ingredient $ingredient
      * @return void
      */
-    public function addIngredient(Ingredient $ingredient)
+    public function addIngredient(Ingredient $ingredient): void
     {
         $this->ingredients->add($ingredient);
     }

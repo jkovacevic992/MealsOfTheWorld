@@ -37,7 +37,7 @@ class Category
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }
@@ -45,7 +45,7 @@ class Category
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getTitle(): mixed
     {
         return $this->title;
     }
@@ -61,7 +61,7 @@ class Category
     /**
      * @return mixed
      */
-    public function getSlug()
+    public function getSlug(): mixed
     {
         return $this->slug;
     }
