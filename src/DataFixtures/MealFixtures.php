@@ -28,7 +28,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $meal = new Meal();
             $meal->setTitle('Meal ' . $i . ' English Title');
             $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i]));
@@ -41,8 +41,8 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
 
             $meal->setCreatedAt(new \DateTime('now'));
             $meal->setDescription('Meal ' . $i . ' English Description');
-            $repository->translate($meal,'title','de','Meal ' . $i . ' German Title');
-            $repository->translate($meal,'description','de','Meal ' . $i . ' German Description');
+            $repository->translate($meal, 'title', 'de', 'Meal ' . $i . ' German Title');
+            $repository->translate($meal, 'description', 'de', 'Meal ' . $i . ' German Description');
             $manager->persist($meal);
         }
         $manager->flush();
