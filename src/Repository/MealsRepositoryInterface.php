@@ -4,6 +4,5 @@ namespace App\Repository;
 
 interface MealsRepositoryInterface
 {
-    public function findMeals(array $requestData):?array;
-
+    public function findMeals(array $requestData): ?array;
 }
