@@ -9,7 +9,7 @@ class DataSorter
 {
     /**
      * Sorts the "meta" part of the response
-     * @param $pagination
+     * @param SlidingPagination $pagination
      * @return array
      */
     public function sortResponseMetaData(SlidingPagination $pagination): array

@@ -81,7 +81,7 @@ class Meal
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }
@@ -89,7 +89,7 @@ class Meal
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDescription(): mixed
     {
         return $this->description;
     }
@@ -97,7 +97,7 @@ class Meal
     /**
      * @param mixed $description
      */
-    public function setDescription($description): void
+    public function setDescription(mixed $description): void
     {
         $this->description = $description;
     }
@@ -105,7 +105,7 @@ class Meal
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getTitle(): mixed
     {
         return $this->title;
     }
@@ -113,7 +113,7 @@ class Meal
     /**
      * @param mixed $title
      */
-    public function setTitle($title): void
+    public function setTitle(mixed $title): void
     {
         $this->title = $title;
     }
@@ -196,7 +196,7 @@ class Meal
     /**
      * @return mixed
      */
-    public function getStatus()
+    public function getStatus(): mixed
     {
         return $this->status;
     }
@@ -204,7 +204,7 @@ class Meal
     /**
      * @param mixed $status
      */
-    public function setStatus($status): void
+    public function setStatus(mixed $status): void
     {
         $this->status = $status;
     }
