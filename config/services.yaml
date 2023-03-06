@@ -35,5 +35,6 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
-            - [ setDefaultLocale, [ "kernel.default_locale" ] ]
+            - [ setDefaultLocale, [ "hr" ] ]
+            - [ setTranslatableLocale, [ en ] ]
             - [ setTranslationFallback, [ false ] ]
