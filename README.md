@@ -10,7 +10,7 @@ Installation:
 Request example:
 http://127.0.0.1:8000/meals?lang=en&with=ingredients,tags,category&per_page=2&page=3
 
-lang = language parameter (accepts en and de)
+lang = language parameter (accepts en and de). Fallback language if no translation is found is English
 
 with = additional information parameter (can be ingredients, tags or category)
 
