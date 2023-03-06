@@ -49,6 +49,11 @@ class Meal
     private $description;
 
     /**
+     * @ORM\Column(type="string", options={"default" = "created"})
+     */
+    private $status;
+
+    /**
      * @Gedmo\Locale()
      */
     private $locale;
@@ -186,5 +191,21 @@ class Meal
     public function getIngredients(): ArrayCollection
     {
         return $this->ingredients;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
     }
 }

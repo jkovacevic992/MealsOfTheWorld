@@ -41,6 +41,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
 
             $meal->setCreatedAt(new \DateTime('now'));
             $meal->setDescription('Meal ' . $i . ' English Description');
+            $meal->setStatus('created');
             $repository->translate($meal, 'title', 'de', 'Meal ' . $i . ' German Title');
             $repository->translate($meal, 'description', 'de', 'Meal ' . $i . ' German Description');
             $manager->persist($meal);
