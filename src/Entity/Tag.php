@@ -4,94 +4,85 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="tag")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'tag')]
 class Tag
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @param int $id
+     * @param string $slug
+     * @param string $title
+     * @param string $locale
+     * @param ArrayCollection $meals
      */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $title;
-
-    /**
-     * @Gedmo\Locale()
-     */
-    private $locale;
-
-    /**
-     * @ManyToMany(targetEntity="Meal", mappedBy="tags")
-     * @var ArrayCollection<int, Meal>
-     */
-    private $meals;
-
-    public function __construct()
-    {
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: 'integer')]
+        #[ORM\GeneratedValue]
+        private int $id,
+        #[ORM\Column(type: 'string')]
+        private string $slug,
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $title,
+        #[Gedmo\Locale]
+        private string $locale,
+        /**
+         * @var ArrayCollection<int, Meal>
+         */
+        #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'tags')]
+        private ArrayCollection $meals
+    ){
         $this->meals = new ArrayCollection();
     }
 
     /**
-     * @param $locale
+     * @param string $locale
      * @return void
      */
-    public function setTranslatableLocale($locale): void
+    public function setTranslatableLocale(string $locale): void
     {
         $this->locale = $locale;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSlug(): mixed
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
-     * @param mixed $slug
+     * @param string $slug
      */
-    public function setSlug(mixed $slug): void
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle(): mixed
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle(mixed $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }

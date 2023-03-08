@@ -38,3 +38,6 @@ services:
             - [ setDefaultLocale, [ "hr" ] ]
             - [ setTranslatableLocale, [ en ] ]
             - [ setTranslationFallback, [ false ] ]
+    App\Validator\RequestValidator:
+        arguments:
+            $errorMessage: true

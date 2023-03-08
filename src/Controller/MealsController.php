@@ -14,11 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MealsController extends AbstractController
 {
-    private RequestValidator $validator;
-    private MealsRepositoryInterface $mealsRepository;
-    private DataSorter $dataSorter;
-    private ResponseDataCleaner $dataCleaner;
-    private PaginatorHelper $paginatorHelper;
 
     /**
      * @param RequestValidator $validator
@@ -28,18 +23,12 @@ class MealsController extends AbstractController
      * @param PaginatorHelper $paginatorHelper
      */
     public function __construct(
-        RequestValidator $validator,
-        MealsRepositoryInterface $mealsRepository,
-        DataSorter $dataSorter,
-        ResponseDataCleaner $dataCleaner,
-        PaginatorHelper $paginatorHelper
-    ) {
-        $this->validator = $validator;
-        $this->mealsRepository = $mealsRepository;
-        $this->dataSorter = $dataSorter;
-        $this->dataCleaner = $dataCleaner;
-        $this->paginatorHelper = $paginatorHelper;
-    }
+        private RequestValidator $validator,
+        private MealsRepositoryInterface $mealsRepository,
+        private DataSorter $dataSorter,
+        private ResponseDataCleaner $dataCleaner,
+        private PaginatorHelper $paginatorHelper
+    ) {}
 
     #[Route('/meals', name: 'app_meals')]
     public function index(Request $request): Response
