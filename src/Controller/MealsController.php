@@ -74,8 +74,6 @@ class MealsController extends AbstractController
             return $this->json($dataArray, 200, [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
-        return $this->render('meals/index.html.twig', [
-            'error' => $this->validator->getErrorMessage()
-        ]);
+        return $this->json($this->validator->getErrorMessage());
     }
 }
