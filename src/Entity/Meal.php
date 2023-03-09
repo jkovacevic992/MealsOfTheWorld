@@ -4,92 +4,80 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="meal")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'meal')]
 class Meal
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    private int $id;
+
+    #[ORM\Column(type: 'string', options: ['default' => 'created'])]
+    private string $status;
+
+    #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
+    private DateTime $createdAt;
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var Collection<int, Tag>
      */
-    private $id;
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'meals')]
+    #[ORM\JoinTable(name: 'meals_tags')]
+    private Collection $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
+     * @var Collection<int, Ingredient>
      */
-    private $category;
+        #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
+        #[ORM\JoinTable(name: 'meals_ingredients')]
+        private Collection $ingredients;
 
     /**
-     * @var DateTime $createdAt
-     *
-     * @ORM\Column(type="datetime")
+     * @param string $title
+     * @param string $description
+     * @param string|null $locale
+     * @param Category|null $category
      */
-    private $createdAt;
+    public function __construct(
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $title,
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $description,
 
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $title;
+        #[Gedmo\Locale]
+        private ?string $locale = null,
 
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="string", options={"default" = "created"})
-     */
-    private $status;
-
-    /**
-     * @Gedmo\Locale()
-     */
-    private $locale;
-
-    /**
-     * @ManyToMany(targetEntity="Tag", inversedBy="meals")
-     * @JoinTable(name="meals_tags")
-     * @var ArrayCollection<int, Tag>
-     */
-    private $tags;
-
-    /**
-     * @ManyToMany(targetEntity="Ingredient", inversedBy="meals")
-     * @JoinTable(name="meals_ingredients")
-     * @var ArrayCollection<int, Ingredient>
-     */
-    private $ingredients;
-
-    public function __construct()
+        #[ORM\ManyToOne(targetEntity: Category::class)]
+        #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
+        private ?Category $category = null
+    )
     {
         $this->tags = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription(): mixed
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -103,9 +91,9 @@ class Meal
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle(): mixed
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -144,25 +132,25 @@ class Meal
     }
 
     /**
-     * @return mixed
+     * @return Category
      */
-    public function getCategory(): mixed
+    public function getCategory(): Category
     {
         return $this->category;
     }
 
     /**
-     * @param mixed $category
+     * @param Category $category
      */
-    public function setCategory(mixed $category): void
+    public function setCategory(Category $category): void
     {
         $this->category = $category;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getTags(): ArrayCollection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
@@ -186,26 +174,34 @@ class Meal
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getIngredients(): ArrayCollection
+    public function getIngredients(): Collection
     {
         return $this->ingredients;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getStatus(): mixed
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @param mixed $status
+     * @param string $status
      */
-    public function setStatus(mixed $status): void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
     }
 }

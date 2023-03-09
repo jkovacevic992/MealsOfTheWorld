@@ -8,12 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaginatorHelper
 {
-    private PaginatorInterface $paginator;
-
-    public function __construct(PaginatorInterface $paginator)
-    {
-        $this->paginator = $paginator;
-    }
+    public function __construct( private PaginatorInterface $paginator)
+    {}
 
     /**
      * @param Request $request
