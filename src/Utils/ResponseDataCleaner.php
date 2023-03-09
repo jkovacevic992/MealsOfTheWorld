@@ -14,6 +14,9 @@ class ResponseDataCleaner
     {
         $tags = explode(',', $requestData['tags']);
         $mealIds = [];
+        if (array_key_exists('with',$requestData)) {
+            $withTags = strpos($requestData['with'],'tags');
+        }
         foreach ($meals as $mealKey => $meal) {
             $tagDiff = [];
             foreach ($meal['tags'] as $tag) {
@@ -28,6 +31,10 @@ class ResponseDataCleaner
         foreach ($meals as $mealKey => $meal) {
             if (!in_array($meal['id'], $mealIds)) {
                 unset($meals[$mealKey]);
+            }
+            //Used "===" instead of !$withTags because the value can be 0
+            if (!isset($withTags) || $withTags === false) {
+                unset($meals[$mealKey]['tags']);
             }
         }
         return $meals;
