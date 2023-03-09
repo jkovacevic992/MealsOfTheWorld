@@ -25,7 +25,8 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
         $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.category', 'c')
             ->innerJoin('m.tags', 't')
-            ->leftJoin('m.ingredients', 'i');
+            ->leftJoin('m.ingredients', 'i')
+            ->addSelect('t');
         if (count($requestData) === 1 && array_key_exists('lang',$requestData)) {
             $qb->groupBy('m.id');
         }
@@ -48,9 +49,6 @@ class MealsRepository extends ServiceEntityRepository implements MealsRepository
             $with = explode(',', $requestData['with']);
             if (in_array('category', $with)) {
                 $qb->addSelect('c');
-            }
-            if (in_array('tags', $with)) {
-                $qb->addSelect('t');
             }
             if (in_array('ingredients', $with)) {
                 $qb->addSelect('i');
