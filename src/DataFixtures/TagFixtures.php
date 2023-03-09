@@ -12,9 +12,10 @@ class TagFixtures extends Fixture
     {
         $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         for ($i = 1; $i <= 10; $i++) {
-            $tag = new Tag();
-            $tag->setTitle('Tag ' . $i . ' English Title');
-            $tag->setSlug('tag-' . $i);
+            $tag = new Tag(
+                slug: 'tag-' . $i,
+                title: 'Tag ' . $i . ' English Title'
+            );
             $repository->translate($tag, 'title', 'de', 'Tag ' . $i . ' German Title');
             $manager->persist($tag);
         }

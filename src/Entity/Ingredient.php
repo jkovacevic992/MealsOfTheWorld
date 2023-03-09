@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -10,39 +11,39 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Table(name: 'ingredient')]
 class Ingredient
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    private int $id;
+
     /**
-     * @param int $id
+     * @var Collection<int, Meal>
+     */
+    #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'ingredients')]
+    private Collection $meals;
+    #[Gedmo\Locale]
+    private $locale;
+
+    /**
      * @param string $slug
      * @param string $title
-     * @param string $locale
-     * @param ArrayCollection $meals
      */
     public function __construct(
-        #[ORM\Id]
-        #[ORM\Column(type: 'integer')]
-        #[ORM\GeneratedValue]
-        private int $id,
         #[ORM\Column(type: 'string')]
         private string $slug,
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
-        private string $title,
-        #[Gedmo\Locale]
-        private string $locale,
-        /**
-         * @var ArrayCollection<int, Meal>
-         */
-        #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'ingredients')]
-        private ArrayCollection $meals
+        private string $title
+
     ){
         $this->meals = new ArrayCollection();
     }
 
     /**
-     * @param string $locale
+     * @param string|null $locale
      * @return void
      */
-    public function setTranslatableLocale(string $locale): void
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
@@ -94,5 +95,13 @@ class Ingredient
     public function addMeal(Meal $meal): void
     {
         $this->meals->add($meal);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
     }
 }

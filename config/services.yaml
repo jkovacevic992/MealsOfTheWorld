@@ -38,6 +38,11 @@ services:
             - [ setDefaultLocale, [ "hr" ] ]
             - [ setTranslatableLocale, [ en ] ]
             - [ setTranslationFallback, [ false ] ]
+    Gedmo\Timestampable\TimestampableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
     App\Validator\RequestValidator:
         arguments:
             $errorMessage: true
