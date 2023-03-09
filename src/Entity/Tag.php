@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -16,24 +17,24 @@ class Tag
     private int $id;
 
     /**
-     * @var ArrayCollection<int, Meal>
+     * @var Collection<int, Meal>
      */
     #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'tags')]
-    private ArrayCollection $meals;
+    private Collection $meals;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     /**
      * @param string $slug
      * @param string $title
-     * @param string|null $locale
      */
     public function __construct(
         #[ORM\Column(type: 'string')]
         private string $slug,
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
-        private string $title,
-        #[Gedmo\Locale]
-        private ?string $locale = null
+        private string $title
     ){
         $this->meals = new ArrayCollection();
     }
@@ -42,7 +43,7 @@ class Tag
      * @param string|null $locale
      * @return void
      */
-    public function setTranslatableLocale(?string $locale): void
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
@@ -97,10 +98,18 @@ class Tag
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getMeals(): ArrayCollection
+    public function getMeals(): Collection
     {
         return $this->meals;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
     }
 }

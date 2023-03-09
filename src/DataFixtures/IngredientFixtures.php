@@ -12,9 +12,10 @@ class IngredientFixtures extends Fixture
     {
         $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         for ($i = 1; $i <= 10; $i++) {
-            $ingredient = new Ingredient();
-            $ingredient->setTitle('Ingredient ' . $i . ' English Title');
-            $ingredient->setSlug('ingredient-' . $i);
+            $ingredient = new Ingredient(
+                slug: 'ingredient-' . $i,
+                title: 'Ingredient ' . $i . ' English Title'
+            );
             $repository->translate($ingredient, 'title', 'de', 'Ingredient ' . $i . ' German Title');
             $manager->persist($ingredient);
         }

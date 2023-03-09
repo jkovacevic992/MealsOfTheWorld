@@ -14,21 +14,23 @@ class Category
     #[ORM\GeneratedValue]
     private int $id;
 
+    #[Gedmo\Locale]
+    private $locale;
+
     /**
      * @param string $slug
      * @param string $title
-     * @param string|null $locale
      */
     public function __construct(
         #[ORM\Column(type: 'string')]
         private string $slug,
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
-        private string $title,
-        #[Gedmo\Locale]
-        private ?string $locale = null
+        private string $title
+
     )
     {
+        $this->locale = null;
     }
 
     /**

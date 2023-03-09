@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
@@ -29,8 +30,8 @@ class Meal
     /**
      * @param string $title
      * @param string $description
-     * @param ArrayCollection $tags
-     * @param ArrayCollection $ingredients
+     * @param Collection $tags
+     * @param Collection $ingredients
      * @param string|null $locale
      * @param Category|null $category
      */
@@ -42,17 +43,17 @@ class Meal
         #[Gedmo\Translatable]
         private string $description,
         /**
-         * @var ArrayCollection<int, Tag>
+         * @var Collection<int, Tag>
          */
         #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'meals')]
         #[ORM\JoinTable(name: 'meals_tags')]
-        private ArrayCollection $tags,
+        private Collection $tags,
         /**
-         * @var ArrayCollection<int, Ingredient>
+         * @var Collection<int, Ingredient>
          */
         #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
         #[ORM\JoinTable(name: 'meals_ingredients')]
-        private ArrayCollection $ingredients,
+        private Collection $ingredients,
         #[Gedmo\Locale]
         private ?string $locale = null,
         #[ORM\ManyToOne(targetEntity: Category::class)]
@@ -60,6 +61,8 @@ class Meal
         private ?Category $category = null
     )
     {
+        $this->tags = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
 
     /**
@@ -144,9 +147,9 @@ class Meal
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getTags(): ArrayCollection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
@@ -170,9 +173,9 @@ class Meal
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getIngredients(): ArrayCollection
+    public function getIngredients(): Collection
     {
         return $this->ingredients;
     }
