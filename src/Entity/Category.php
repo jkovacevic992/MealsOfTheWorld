@@ -29,9 +29,7 @@ class Category
         private string $title
 
     )
-    {
-        $this->locale = null;
-    }
+    {}
 
     /**
      * @return int

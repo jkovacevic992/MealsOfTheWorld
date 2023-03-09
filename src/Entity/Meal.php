@@ -36,9 +36,9 @@ class Meal
     /**
      * @var Collection<int, Ingredient>
      */
-        #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
-        #[ORM\JoinTable(name: 'meals_ingredients')]
-        private Collection $ingredients;
+    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
+    #[ORM\JoinTable(name: 'meals_ingredients')]
+    private Collection $ingredients;
 
     /**
      * @param string $title
