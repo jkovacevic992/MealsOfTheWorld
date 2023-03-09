@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaginatorHelper
 {
-    public function __construct( private PaginatorInterface $paginator)
+    public function __construct( private readonly PaginatorInterface $paginator)
     {}
 
     /**
@@ -18,7 +18,6 @@ class PaginatorHelper
      */
     public function paginate(Request $request, array $dataArray): ?PaginationInterface
     {
-        $pagination = null;
         $requestData = $request->query->all();
         if (array_key_exists('per_page', $requestData)
             && array_key_exists('page', $requestData)) {
@@ -32,6 +31,8 @@ class PaginatorHelper
         } elseif (array_key_exists('per_page', $requestData)
             && !array_key_exists('page', $requestData)) {
             $pagination = $this->paginator->paginate($dataArray, 1, $requestData['per_page']);
+        } else {
+            $pagination = $this->paginator->paginate($dataArray);
         }
         return $pagination;
     }
