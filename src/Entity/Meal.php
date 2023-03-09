@@ -10,69 +10,54 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="meal")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'meal')]
 class Meal
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @param int $id
+     * @param string $title
+     * @param string $description
+     * @param string $status
+     * @param string $locale
+     * @param DateTime $createdAt
+     * @param Category $category
+     * @param ArrayCollection $tags
+     * @param ArrayCollection $ingredients
      */
-    private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
-     */
-    private $category;
-
-    /**
-     * @var DateTime $createdAt
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="string", options={"default" = "created"})
-     */
-    private $status;
-
-    /**
-     * @Gedmo\Locale()
-     */
-    private $locale;
-
-    /**
-     * @ManyToMany(targetEntity="Tag", inversedBy="meals")
-     * @JoinTable(name="meals_tags")
-     * @var ArrayCollection<int, Tag>
-     */
-    private $tags;
-
-    /**
-     * @ManyToMany(targetEntity="Ingredient", inversedBy="meals")
-     * @JoinTable(name="meals_ingredients")
-     * @var ArrayCollection<int, Ingredient>
-     */
-    private $ingredients;
-
-    public function __construct()
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: 'integer')]
+        #[ORM\GeneratedValue]
+        private int $id,
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $title,
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $description,
+        #[ORM\Column(type: 'string', options: ['default' => 'created'])]
+        private string $status,
+        #[Gedmo\Locale]
+        private string $locale,
+        #[ORM\Column(type: 'datetime')]
+        private DateTime $createdAt,
+        #[ORM\ManyToOne(targetEntity: Category::class)]
+        #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
+        private Category $category,
+        /**
+         * @var ArrayCollection<int, Tag>
+         */
+        #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'meals')]
+        #[ORM\JoinTable(name: 'meals_tags')]
+        private ArrayCollection $tags,
+        /**
+         * @var ArrayCollection<int, Ingredient>
+         */
+        #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
+        #[ORM\JoinTable(name: 'meals_ingredients')]
+        private ArrayCollection $ingredients
+    )
     {
         $this->tags = new ArrayCollection();
         $this->ingredients = new ArrayCollection();

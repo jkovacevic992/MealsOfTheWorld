@@ -5,80 +5,77 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="category")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'category')]
 class Category
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @param int $id
+     * @param string $slug
+     * @param string $title
+     * @param string $locale
      */
-    private $id;
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: 'integer')]
+        #[ORM\GeneratedValue]
+        private int $id,
+        #[ORM\Column(type: 'string')]
+        private string $slug,
+        #[ORM\Column(type: 'string')]
+        #[Gedmo\Translatable]
+        private string $title,
+        #[Gedmo\Locale]
+        private string $locale
+    )
+    {
+    }
 
     /**
-     * @ORM\Column(type="string")
+     * @return int
      */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Gedmo\Translatable()
-     */
-    private $title;
-
-    /**
-     * @Gedmo\Locale()
-     */
-    private $locale;
-
-    /**
-     * @return mixed
-     */
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle(): mixed
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSlug(): mixed
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
-     * @param mixed $slug
+     * @param string $slug
      */
-    public function setSlug($slug): void
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
     /**
-     * @param $locale
+     * @param string $locale
      * @return void
      */
-    public function setTranslatableLocale($locale): void
+    public function setTranslatableLocale(string $locale): void
     {
         $this->locale = $locale;
     }

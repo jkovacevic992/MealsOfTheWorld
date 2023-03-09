@@ -9,16 +9,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestValidator
 {
-    private $errorMessage;
-    private ValidatorInterface $validator;
-
     /**
      * @param ValidatorInterface $validator
+     * @param string $errorMessage
      */
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-    }
+    public function __construct(private ValidatorInterface $validator, private string $errorMessage)
+    {}
 
     /**
      * Validates all fields of the request
