@@ -26,12 +26,23 @@ class Meal
     #[ORM\Column(type: 'datetime')]
     #[Gedmo\Timestampable(on: 'create')]
     private DateTime $createdAt;
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'meals')]
+    #[ORM\JoinTable(name: 'meals_tags')]
+    private Collection $tags;
+
+    /**
+     * @var Collection<int, Ingredient>
+     */
+        #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
+        #[ORM\JoinTable(name: 'meals_ingredients')]
+        private Collection $ingredients;
 
     /**
      * @param string $title
      * @param string $description
-     * @param Collection $tags
-     * @param Collection $ingredients
      * @param string|null $locale
      * @param Category|null $category
      */
@@ -42,20 +53,10 @@ class Meal
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
         private string $description,
-        /**
-         * @var Collection<int, Tag>
-         */
-        #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'meals')]
-        #[ORM\JoinTable(name: 'meals_tags')]
-        private Collection $tags,
-        /**
-         * @var Collection<int, Ingredient>
-         */
-        #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'meals')]
-        #[ORM\JoinTable(name: 'meals_ingredients')]
-        private Collection $ingredients,
+
         #[Gedmo\Locale]
         private ?string $locale = null,
+
         #[ORM\ManyToOne(targetEntity: Category::class)]
         #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: true)]
         private ?Category $category = null
@@ -194,5 +195,13 @@ class Meal
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
     }
 }

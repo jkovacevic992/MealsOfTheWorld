@@ -33,18 +33,14 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i <= 10; $i++) {
             $meal = new Meal(
                 title: 'Meal ' . $i . ' English Title',
-                description: 'Meal ' . $i . ' English Description',
-                tags: new ArrayCollection([
-                    $manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i]),
-                    $manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i+1])
-                ]),
-                ingredients: new ArrayCollection([
-                    $manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i]),
-                    $manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i+1])
-                ])
-
+                description: 'Meal ' . $i . ' English Description'
             );
+            $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i]));
+            $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i]));
+
             if ($i < 8) {
+                $meal->addTag($manager->getRepository(Tag::class)->findOneBy(['slug' => 'tag-' . $i+1]));
+                $meal->addIngredient($manager->getRepository(Ingredient::class)->findOneBy(['slug' => 'ingredient-' . $i+1]));
                 $meal->setCategory($manager->getRepository(Category::class)->findOneBy(['slug' => 'category-' . $i]));
             }
             $meal->setStatus('created');
