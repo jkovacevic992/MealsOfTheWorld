@@ -55,16 +55,12 @@ class MealsController extends AbstractController
             }
 
             if (empty($dataArray['data'])) {
-                return $this->render('meals/index.html.twig', [
-                    'no_meals' => 'Looks like there are no meals with the requested parameters.'
-                ]);
+                return $this->json('No meals with requested parameters');
             }
 
             return $this->json($dataArray, 200, [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
 
-        return $this->render('meals/index.html.twig', [
-            'error' => $this->validator->getErrorMessage()
-        ]);
+        return $this->json($this->validator->getErrorMessage());
     }
 }
