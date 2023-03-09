@@ -1,7 +1,7 @@
 The application will return a json response with requested info.
 
 Installation:
-- configure .env
+- configure .env.local
 - run "composer install"
 - Create database: php bin/console doctrine:database:create
 - Run migrations = php bin/console doctrine:migrations:migrate
