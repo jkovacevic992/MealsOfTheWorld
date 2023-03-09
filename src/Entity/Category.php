@@ -27,7 +27,6 @@ class Category
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
         private string $title
-
     )
     {}
 
