@@ -9,24 +9,24 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Table(name: 'category')]
 class Category
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    private int $id;
+
     /**
-     * @param int $id
      * @param string $slug
      * @param string $title
-     * @param string $locale
+     * @param string|null $locale
      */
     public function __construct(
-        #[ORM\Id]
-        #[ORM\Column(type: 'integer')]
-        #[ORM\GeneratedValue]
-        private int $id,
         #[ORM\Column(type: 'string')]
         private string $slug,
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
         private string $title,
         #[Gedmo\Locale]
-        private string $locale
+        private ?string $locale = null
     )
     {
     }
@@ -72,10 +72,10 @@ class Category
     }
 
     /**
-     * @param string $locale
+     * @param string|null $locale
      * @return void
      */
-    public function setTranslatableLocale(string $locale): void
+    public function setTranslatableLocale(?string $locale): void
     {
         $this->locale = $locale;
     }

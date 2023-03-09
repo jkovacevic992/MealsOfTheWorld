@@ -10,39 +10,39 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Table(name: 'tag')]
 class Tag
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    private int $id;
+
     /**
-     * @param int $id
+     * @var ArrayCollection<int, Meal>
+     */
+    #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'tags')]
+    private ArrayCollection $meals;
+
+    /**
      * @param string $slug
      * @param string $title
-     * @param string $locale
-     * @param ArrayCollection $meals
+     * @param string|null $locale
      */
     public function __construct(
-        #[ORM\Id]
-        #[ORM\Column(type: 'integer')]
-        #[ORM\GeneratedValue]
-        private int $id,
         #[ORM\Column(type: 'string')]
         private string $slug,
         #[ORM\Column(type: 'string')]
         #[Gedmo\Translatable]
         private string $title,
         #[Gedmo\Locale]
-        private string $locale,
-        /**
-         * @var ArrayCollection<int, Meal>
-         */
-        #[ORM\ManyToMany(targetEntity: 'Meal', mappedBy: 'tags')]
-        private ArrayCollection $meals
+        private ?string $locale = null
     ){
         $this->meals = new ArrayCollection();
     }
 
     /**
-     * @param string $locale
+     * @param string|null $locale
      * @return void
      */
-    public function setTranslatableLocale(string $locale): void
+    public function setTranslatableLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
