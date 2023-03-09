@@ -24,20 +24,14 @@ class DataSorter
 
     /**
      * @param array $data
-     * @param array|null $meta
-     * @param array|null $links
+     * @param array $meta
+     * @param array $links
      * @return array
      */
-    public function sortData(array $data, array $meta = null, array $links = null): array
+    public function sortData(array $data, array $meta, array $links): array
     {
-        if ($meta) {
-            $dataArray['meta'] = $meta;
-        }
-
-        if ($links) {
-            $dataArray['links'] = $links;
-        }
-
+        $dataArray['meta'] = $meta;
+        $dataArray['links'] = $links;
         $dataArray['data'] = $data;
         return $dataArray;
     }

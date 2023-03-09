@@ -23,11 +23,11 @@ class MealsController extends AbstractController
      * @param PaginatorHelper $paginatorHelper
      */
     public function __construct(
-        private RequestValidator $validator,
-        private MealsRepositoryInterface $mealsRepository,
-        private DataSorter $dataSorter,
-        private ResponseDataCleaner $dataCleaner,
-        private PaginatorHelper $paginatorHelper
+        private readonly RequestValidator         $validator,
+        private readonly MealsRepositoryInterface $mealsRepository,
+        private readonly DataSorter               $dataSorter,
+        private readonly ResponseDataCleaner      $dataCleaner,
+        private readonly PaginatorHelper          $paginatorHelper
     ) {}
 
     #[Route('/meals', name: 'app_meals')]
@@ -44,23 +44,14 @@ class MealsController extends AbstractController
                 $meals = $this->mealsRepository->findMeals($requestData);
             }
             $pagination = $this->paginatorHelper->paginate($request, $meals);
-            if ($pagination) {
-                $dataArray = $this->dataSorter->sortData(
+            $dataArray = $this->dataSorter->sortData(
                     $pagination->getItems(),
                     $this->dataSorter->sortResponseMetaData($pagination),
                     $this->dataSorter->sortLinksData($request, $pagination)
                 );
-            } else {
-                $dataArray = $this->dataSorter->sortData($meals);
-            }
-
-            if (empty($dataArray['data'])) {
-                return $this->json('No meals with requested parameters');
-            }
-
-            return $this->json($dataArray, 200, [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
+            return (empty($dataArray['data'])) ? $this->json('No meals with requested parameters') :
+                $this->json($dataArray, 200, [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
-
         return $this->json($this->validator->getErrorMessage());
     }
 }
