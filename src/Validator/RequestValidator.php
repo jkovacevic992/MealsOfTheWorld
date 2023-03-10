@@ -13,7 +13,7 @@ class RequestValidator
      * @param ValidatorInterface $validator
      * @param string $errorMessage
      */
-    public function __construct(private ValidatorInterface $validator, private string $errorMessage)
+    public function __construct(private readonly ValidatorInterface $validator, private string $errorMessage)
     {}
 
     /**
