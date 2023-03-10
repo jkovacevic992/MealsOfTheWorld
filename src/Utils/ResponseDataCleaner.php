@@ -34,7 +34,12 @@ class ResponseDataCleaner
         return $meals;
     }
 
-    public function unsetTags(array $requestData, array $meals)
+    /**
+     * @param array $requestData
+     * @param array $meals
+     * @return array
+     */
+    public function unsetTags(array $requestData, array $meals): array
     {
         if (array_key_exists('with',$requestData)) {
             $withTags = str_contains($requestData['with'],'tags');
