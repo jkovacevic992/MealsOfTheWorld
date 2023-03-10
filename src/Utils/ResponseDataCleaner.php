@@ -40,7 +40,6 @@ class ResponseDataCleaner
             $withTags = str_contains($requestData['with'],'tags');
         }
         foreach ($meals as $mealKey => $meal) {
-            //Used "===" instead of !$withTags because the value can be 0
             if (!isset($withTags) || !$withTags) {
                 unset($meals[$mealKey]['tags']);
             }
