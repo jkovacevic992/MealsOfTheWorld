@@ -50,9 +50,8 @@ class MealsController extends AbstractController
                     $this->dataSorter->sortResponseMetaData($pagination),
                     $this->dataSorter->sortLinksData($request, $pagination)
                 );
-            return (empty($dataArray['data'])) ? $this->json('No meals with requested parameters') :
-                $this->json(data: $dataArray, context: ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
+            return $this->json(data: $dataArray, context: ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
-        return $this->json($this->validator->getErrorMessage());
+        return $this->json(data: $this->validator->getErrorMessage(), status: 404);
     }
 }

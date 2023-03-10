@@ -32,7 +32,11 @@ class DataSorter
     {
         $dataArray['meta'] = $meta;
         $dataArray['links'] = $links;
-        $dataArray['data'] = $data;
+        if (empty($data)) {
+            $dataArray['data'] = 'No meals with requested parameters';
+        } else {
+            $dataArray['data'] = $data;
+        }
         return $dataArray;
     }
 
