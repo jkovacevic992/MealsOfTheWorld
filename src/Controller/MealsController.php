@@ -43,6 +43,7 @@ class MealsController extends AbstractController
             } else {
                 $meals = $this->mealsRepository->findMeals($requestData);
             }
+            $meals = $this->dataCleaner->unsetTags($requestData, $meals);
             $pagination = $this->paginatorHelper->paginate($request, $meals);
             $dataArray = $this->dataSorter->sortData(
                     $pagination->getItems(),
@@ -50,7 +51,7 @@ class MealsController extends AbstractController
                     $this->dataSorter->sortLinksData($request, $pagination)
                 );
             return (empty($dataArray['data'])) ? $this->json('No meals with requested parameters') :
-                $this->json($dataArray, 200, [], ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
+                $this->json(data: $dataArray, context: ['json_encode_options' => JSON_UNESCAPED_SLASHES]);
         }
         return $this->json($this->validator->getErrorMessage());
     }
